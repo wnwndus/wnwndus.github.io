@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>배달 어플 - 아이디 찾기</title>
+  <style>
+    /* CSS 스타일링 */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>아이디 찾기</h1>
+    <form id="forgotForm" method="post" action="forgot_password.php">
+      <label for="email">가입 시 등록한 이메일 주소를 입력하세요:</label>
+      <input type="email" id="email" name="email" required>
+      <button type="submit">아이디 찾기</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // JavaScript 코드
+    const form = document.getElementById('forgotForm');
+    const resultDiv = document.getElementById('result');
+    
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      
+      // 서버로 이메일 주소 전송
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'forgot_password.php', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          resultDiv.innerHTML = xhr.responseText;
+        } else {
+          resultDiv.innerHTML = '오류가 발생했습니다.';
+        }
+      };
+      xhr.send('email=' + email);
+    });
+  </script>
+</body>
+</html>
